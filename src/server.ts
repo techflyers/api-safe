@@ -8,7 +8,7 @@ import apiKeyRoutes from './routes/apiKeys';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 5000; // ...changed to ensure PORT is a number
 
 // Middleware
 app.use(cors());
@@ -23,6 +23,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/api-handl
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
-}); 
+});
