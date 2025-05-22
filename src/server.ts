@@ -11,8 +11,17 @@ const app = express();
 const PORT = process.env.PORT ? Number(process.env.PORT) : 5000; // ...changed to ensure PORT is a number
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*', // Allow all origins in development - you may want to restrict this in production
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'x-auth-token']
+}));
 app.use(express.json());
+
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ message: 'API is running' });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
