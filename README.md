@@ -28,8 +28,12 @@ Perfect for users and devs who want rock-solid security without the headaches.
 ## Setup Locally
 
 1. Clone the repository:
+```bash
+git clone https://github.com/techflyers/api-safe.git
+cd api-safe
+```
 
-2. Install backend dependencies:
+3. Install backend dependencies:
 ```bash
 npm install
 ```
