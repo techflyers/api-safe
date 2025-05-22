@@ -19,7 +19,8 @@ router.post(
     auth,
     body('keyName').not().isEmpty().trim(),
     body('apiKey').not().isEmpty().trim(),
-    body('providers').isArray({ min: 1 })
+    body('providers').isArray({ min: 1 }),
+    body('type').optional().isIn(['paid', 'free'])
   ],
   async (req: AuthRequest, res: Response) => {
     const errors = validationResult(req);
@@ -28,7 +29,7 @@ router.post(
     }
 
     try {
-      const { keyName, apiKey, providers } = req.body;
+      const { keyName, apiKey, providers, type } = req.body;
 
       // Check if key name already exists
       const existingKey = await ApiKey.findOne({ keyName });
@@ -40,6 +41,7 @@ router.post(
         keyName,
         apiKey,
         providers,
+        type: type || 'free',
         userId: req.user?.id
       });
 
@@ -92,7 +94,8 @@ router.put(
     auth,
     body('apiKey').optional().trim(),
     body('providers').optional().isArray(),
-    body('status').optional().isIn(['active', 'inactive'])
+    body('status').optional().isIn(['active', 'inactive']),
+    body('type').optional().isIn(['paid', 'free'])
   ],
   async (req: AuthRequest, res: Response) => {
     const errors = validationResult(req);
@@ -113,7 +116,8 @@ router.put(
       const updateData = {
         ...(req.body.apiKey && { apiKey: req.body.apiKey }),
         ...(req.body.providers && { providers: req.body.providers }),
-        ...(req.body.status && { status: req.body.status })
+        ...(req.body.status && { status: req.body.status }),
+        ...(req.body.type && { type: req.body.type })
       };
 
       apiKey = await ApiKey.findOneAndUpdate(

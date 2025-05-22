@@ -7,6 +7,7 @@ export interface IApiKey extends mongoose.Document {
   providers: string[];
   createdAt: Date;
   status: 'active' | 'inactive';
+  type: 'paid' | 'free';
 }
 
 const apiKeySchema = new mongoose.Schema({
@@ -34,6 +35,11 @@ const apiKeySchema = new mongoose.Schema({
     type: String,
     enum: ['active', 'inactive'],
     default: 'active'
+  },
+  type: {
+    type: String,
+    enum: ['paid', 'free'],
+    default: 'free'
   },
   createdAt: {
     type: Date,
