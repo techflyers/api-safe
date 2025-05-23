@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
 
   const fetchApiKeys = async () => {
     try {
-      const response = await axios.get('https://api-safe.onrender.com/api/keys');
+      const response = await axios.get('http://apisafegui-techflyervp.ladeapp.com/api/keys');
       setApiKeys(response.data);
     } catch (err) {
       console.error('Error fetching API keys:', err);
@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
         return;
       }
 
-      await axios.post('https://api-safe.onrender.com/api/keys', {
+      await axios.post('http://apisafegui-techflyervp.ladeapp.com/api/keys', {
         keyName,
         apiKey,
         providers: selectedProviders,
@@ -105,7 +105,7 @@ const Dashboard: React.FC = () => {
         return;
       }
 
-      await axios.put(`https://api-safe.onrender.com/api/keys/${selectedKey.keyName}`, {
+      await axios.put(`http://apisafegui-techflyervp.ladeapp.com/api/keys/${selectedKey.keyName}`, {
         apiKey,
         providers: selectedProviders,
         type: keyType,
@@ -120,7 +120,7 @@ const Dashboard: React.FC = () => {
 
   const handleDeleteKey = async (keyName: string) => {
     try {
-      await axios.delete(`https://api-safe.onrender.com/api/keys/${keyName}`);
+      await axios.delete(`http://apisafegui-techflyervp.ladeapp.com/api/keys/${keyName}`);
       fetchApiKeys();
     } catch (err) {
       console.error('Error deleting API key:', err);
