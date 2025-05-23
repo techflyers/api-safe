@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loadUser = async () => {
     try {
-      const res = await axios.get('http://apisafegui-techflyervp.ladeapp.com/api/auth/me');
+      const res = await axios.get('https://apisafegui-techflyervp.ladeapp.com/api/auth/me');
       setUser(res.data);
       setIsAuthenticated(true);
     } catch (err) {
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (username: string, password: string) => {
     try {
-      const res = await axios.post('http://apisafegui-techflyervp.ladeapp.com/api/auth/login', {
+      const res = await axios.post('https://apisafegui-techflyervp.ladeapp.com/api/auth/login', {
         username,
         password,
       });
@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = async (username: string, email: string, password: string) => {
     try {
-      const res = await axios.post('http://apisafegui-techflyervp.ladeapp.com/api/auth/register', {
+      const res = await axios.post('https://apisafegui-techflyervp.ladeapp.com/api/auth/register', {
         username,
         email,
         password,
