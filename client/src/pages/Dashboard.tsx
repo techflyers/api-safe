@@ -23,8 +23,9 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  Snackbar, // Added for copy feedback
 } from '@mui/material';
-import { Delete as DeleteIcon, Edit as EditIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon, Edit as EditIcon, Logout as LogoutIcon, ContentCopy as ContentCopyIcon } from '@mui/icons-material'; // Added ContentCopyIcon
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -53,6 +54,8 @@ const Dashboard: React.FC = () => {
   const [error, setError] = useState('');
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // Added for copy feedback
+  const [snackbarMessage, setSnackbarMessage] = useState(''); // Added for copy feedback
 
   const providers = [
     'openai',
@@ -174,6 +177,24 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // --- New function to handle copying API key ---
+  const handleCopyKey = async (keyToCopy: string) => {
+    try {
+      await navigator.clipboard.writeText(keyToCopy);
+      setSnackbarMessage('API Key copied to clipboard!');
+      setSnackbarOpen(true);
+    } catch (err) {
+      console.error('Failed to copy API key: ', err);
+      setSnackbarMessage('Failed to copy API key.');
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleSnackbarClose = () => { // Added for copy feedback
+    setSnackbarOpen(false);
+  };
+
+
   const filteredApiKeys = apiKeys.filter((key) =>
     key.keyName.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -221,7 +242,18 @@ const Dashboard: React.FC = () => {
             <TableBody>
               {filteredApiKeys.map((key) => (
                 <TableRow key={key._id}>
-                  <TableCell>{key.keyName}</TableCell>
+                  <TableCell>
+                    {/* --- Added Copy Button --- */}
+                    <IconButton
+                      size="small"
+                      onClick={() => handleCopyKey(key.apiKey)}
+                      sx={{ mr: 1 }}
+                      title="Copy API Key"
+                    >
+                      <ContentCopyIcon fontSize="small" />
+                    </IconButton>
+                    {key.keyName}
+                  </TableCell>
                   <TableCell>
                     {key.apiKey.substring(0, 8)}...
                   </TableCell>
@@ -273,7 +305,8 @@ const Dashboard: React.FC = () => {
           </Table>
         </TableContainer>
 
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        {/* Dialog for Adding New API Key */}
+        <Dialog open={openDialog} onClose={() => { setOpenDialog(false); clearForm(); }}>
           <DialogTitle>Add New API Key</DialogTitle>
           <DialogContent>
             <TextField
@@ -326,11 +359,12 @@ const Dashboard: React.FC = () => {
             )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+            <Button onClick={() => { setOpenDialog(false); clearForm(); }}>Cancel</Button>
             <Button onClick={handleAddKey}>Add Key</Button>
           </DialogActions>
         </Dialog>
 
+        {/* Dialog for Confirming Delete */}
         <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
           <DialogTitle>Confirm Delete</DialogTitle>
           <DialogContent>
@@ -346,7 +380,8 @@ const Dashboard: React.FC = () => {
           </DialogActions>
         </Dialog>
 
-        <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+        {/* Dialog for Editing API Key */}
+        <Dialog open={openEditDialog} onClose={() => { setOpenEditDialog(false); clearForm(); }}>
           <DialogTitle>Edit API Key</DialogTitle>
           <DialogContent>
             <TextField
@@ -400,13 +435,21 @@ const Dashboard: React.FC = () => {
             )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenEditDialog(false)}>Cancel</Button>
+            <Button onClick={() => { setOpenEditDialog(false); clearForm(); }}>Cancel</Button>
             <Button onClick={handleUpdateKey}>Save Changes</Button>
           </DialogActions>
         </Dialog>
+
+        {/* Snackbar for copy feedback */}
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          message={snackbarMessage}
+        />
       </Container>
     </Box>
   );
 };
 
-export default Dashboard; 
+export default Dashboard;
