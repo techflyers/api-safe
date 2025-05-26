@@ -64,6 +64,7 @@ const Dashboard: React.FC = () => {
     'openrouter',
     'gitazure',
     'anthropic',
+    'pollinations',
   ];
 
   useEffect(() => {
