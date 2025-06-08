@@ -62,6 +62,7 @@ npm run dev
 
 3. Change the server location to localhost:
 ```bash
+cd client
 find . -type f -exec sed -i 's|http://localhost:5000|https://apisafegui-techflyervp.ladeapp.com|g' {} +
 ```
 
