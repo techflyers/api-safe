@@ -64,6 +64,7 @@ npm run dev
 cd client
 find . -type f -exec sed -i 's|http://localhost:5000|https://apisafegui-techflyervp.ladeapp.com|g' {} +
 ```
+Or do manually in Dashboard.tsx and AuthContext.tsx
 
 3. Start the frontend development server:
 ```bash
