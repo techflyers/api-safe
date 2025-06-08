@@ -47,7 +47,7 @@ npm install
 4. Create a `.env` file in the root directory with the following variables:
 ```
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/api-handler
+MONGODB_URI=mongodb://localhost:27017/api-handler <REPLACE WITH YOURS>
 JWT_SECRET=your_jwt_secret_here
 ```
 
@@ -58,6 +58,11 @@ JWT_SECRET=your_jwt_secret_here
 2. Start the backend server:
 ```bash
 npm run dev
+```
+
+3. Change the server location to localhost:
+```bash
+find . -type f -exec sed -i 's|http://localhost:5000|https://apisafegui-techflyervp.ladeapp.com|g' {} +
 ```
 
 3. Start the frontend development server:
@@ -95,7 +100,7 @@ The application will be available at:
 
 Okay, based on the provided instructions, here's how you can use curl to register, log in, and get your user details.
 
-**Step 1: Register a User (if needed)**
+**Step 1: Register a User**
 ```bash
 curl -X POST \
   -H "Content-Type: application/json" \
@@ -104,7 +109,7 @@ curl -X POST \
     "email": "testuser@example.com",
     "password": "password123"
   }' \
-  http://localhost:3000/api/auth/register
+  http://localhost:5000/api/auth/register
 ```
 
 **Step 2: Login to Get a Token**
@@ -115,7 +120,7 @@ curl -X POST \
     "username": "testuser",
     "password": "password123"
   }' \
-  http://localhost:3000/api/auth/login
+  http://localhost:5000/api/auth/login
 ```
 
 **Step 3: Get User Details**
@@ -124,7 +129,7 @@ Replace YOUR_TOKEN_HERE with the token from the login response.
 TOKEN="YOUR_TOKEN_HERE"
 curl -X GET \
   -H "x-auth-token: $TOKEN" \
-  http://localhost:3000/api/auth/me
+  http://localhost:5000/api/auth/me
 ```
 
 ## License
