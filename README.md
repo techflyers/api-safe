@@ -5,10 +5,9 @@ A full-stack application for managing API keys across different providers. Built
 “Unlock simplicity. Secure your keys.”
 
 * Centralized Key Vault – Keep all your provider keys in one secure place  
-* One-Click Provisioning – Add new keys instantly via a clean, minimal UI  
-* Smart Search & Filters – Find the right key in seconds
+* One-Click Provisioning – Add new keys instantly via a clean, minimal UI
 
-Perfect for users and devs who want rock-solid security without the headaches.
+Perfect for users and devs who want security without the headaches.
 
 ## Features
 
